@@ -124,6 +124,10 @@ class bundler:
 
         if self.bucket and not self.force:
 
+            # It is unclear to me whether this is a constraint we
+            # actually want to impose (20160119/thisisaaronland)
+
+            """
             fh = open(csv_latest)
             reader = csv.DictReader(fh)
 
@@ -134,6 +138,7 @@ class bundler:
                 return True
             except Exception, e:
                 logging.error("failed to parse %s, because %s" % (csv_latest, e))
+            """
 
             local_hash = self.hash_file(csv_latest)
             remote_hash = self.read_remote(csv_sha1)
