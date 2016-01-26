@@ -63,6 +63,11 @@ class bundler:
             
         #
 
+        aws_bucket = kwargs.get('aws_bucket', None)
+
+        if not aws_bucket:
+            raise Exception, "aws_bucket not defined"
+
         aws_creds = kwargs.get('aws_creds', None)
 
         if aws_creds:
@@ -72,11 +77,6 @@ class bundler:
             if not os.path.exists(aws_creds):
                 raise Exception, "%s does not exist" % aws_creds
 
-            aws_bucket = kwargs.get('aws_bucket', None)
-
-            if not aws_bucket:
-                raise Exception, "aws_bucket not defined"
-
             cfg = ConfigParser.ConfigParser()
             cfg.read(aws_creds)
 
@@ -84,14 +84,13 @@ class bundler:
             aws_secret = cfg.get('default', 'aws_secret_access_key')
         
             conn = S3Connection(aws_key, aws_secret)
-            bucket = conn.get_bucket(aws_bucket)
-
-            self.conn = conn
-            self.bucket = bucket
-
         else:
-            self.conn = None
-            self.bucket = None
+            conn = S3Connection()
+
+        bucket = conn.get_bucket(aws_bucket)
+
+        self.conn = conn
+        self.bucket = bucket
 
         #
 

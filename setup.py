@@ -8,7 +8,7 @@ desc = open("README.md").read(),
 setup(
     name='mapzen.whosonfirst.bundles',
     namespace_packages=['mapzen', 'mapzen.whosonfirst', 'mapzen.whosonfirst.bundles'],
-    version='0.01',
+    version='0.02',
     description='A package to generate Who\'s On First data bundles',
     author='Mapzen',
     url='https://github.com/mapzen/py-mapzen-whosonfirst-bundles',
@@ -23,5 +23,5 @@ setup(
     scripts=[
         'scripts/wof-bundle-placetypes',
         ],
-    download_url='https://github.com/mapzen/py-mapzen-whosonfirst-bundle/releases/tag/v0.01',
+    download_url='https://github.com/mapzen/py-mapzen-whosonfirst-bundle/releases/tag/v0.02',
     license='BSD')
