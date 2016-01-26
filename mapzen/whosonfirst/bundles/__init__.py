@@ -119,7 +119,7 @@ class bundler:
         # do we need to do any work? like has anything changed?
         # we will use the SHA1 hash of the CSV files to test that
         # since the SHA1 hash of the tarball seems to change between
-        # runs (20160118/thisisaaronland)
+        # runs (20160118/thisisaaronland) 
 
         if self.bucket and not self.force:
 
