@@ -109,7 +109,7 @@ class bundler:
         csv_latest = os.path.join(self.meta, csv_fname)
 
         csv_local = os.path.join(root, csv_fname)
-        csv_sha1 = "%s.sha1.txt" % csv_latest
+        csv_sha1 = "%s.sha1.txt" % csv_local
 
         tarball = "%s.tar.bz2" % root
         tarball_sha1 = "%s.sha1.txt" % tarball
