@@ -16,6 +16,7 @@ if __name__ == '__main__':
     opt_parser.add_option('-s', '--source', dest='source', action='store', default=None, help='')
     opt_parser.add_option('-d', '--dest', dest='dest', action='store', default=None, help='')
     opt_parser.add_option('-p', '--placetypes', dest='placetypes', action='store', default=None, help='')
+    opt_parser.add_option('-S', '--suffix', dest='suffix', action='store', default='', help='')
     # see below
     # opt_parser.add_option('-r', '--roles', dest='roles', action='store', default=None, help='')
     opt_parser.add_option('--wof-clone', dest='clone', action='store', default=None, help='')
@@ -71,8 +72,8 @@ if __name__ == '__main__':
 
     for pt in iter:
 
-        logging.info("bundle %s" % pt)
+        logging.info("bundle %s (%s)" % (pt, options.suffix))
 
         # TO DO: threads?
 
-        bdl.bundle(pt)
+        bdl.bundle(pt, suffix=options.suffix)
