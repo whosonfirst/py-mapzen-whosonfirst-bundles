@@ -149,6 +149,10 @@ class bundler:
                 logging.error("failed to parse %s, because %s" % (csv_latest, e))
             """
 
+            if not os.path.exists(csv_latest):
+                logging.warning("%s does not exist, so skipping" % csv_latest)
+                return False
+
             local_hash = self.hash_file(csv_latest)
             remote_hash = self.read_remote(csv_sha1)
             
