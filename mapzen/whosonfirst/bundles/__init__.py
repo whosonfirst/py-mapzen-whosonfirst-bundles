@@ -193,7 +193,7 @@ class bundler:
 
         # now make a tarball
 
-        cmd = ["tar", "-C", self.dest, "-cvjf", tarball, bundle]
+        cmd = ["tar", "-C", self.dest, "-cjf", tarball, bundle]
         logging.info(cmd)
 
         subprocess.check_call(cmd)
