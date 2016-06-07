@@ -13,11 +13,11 @@ if __name__ == '__main__':
 
     opt_parser = optparse.OptionParser()
 
-    opt_parser.add_option('-s', '--source', dest='source', action='store', default=None, help='')
-    opt_parser.add_option('-d', '--dest', dest='dest', action='store', default=None, help='')
-    opt_parser.add_option('-p', '--placetypes', dest='placetypes', action='store', default=None, help='')
-    opt_parser.add_option('-S', '--suffix', dest='suffix', action='store', default='', help='')
-    opt_parser.add_option('-n', '--name', dest='name', action='store', default='', help='')
+    opt_parser.add_option('-s', '--source', dest='source', action='store', default=None, help='Where the actual WOF data lives')
+    opt_parser.add_option('-d', '--dest', dest='dest', action='store', default=None, help='Where the bundle will be created')
+    opt_parser.add_option('-p', '--placetypes', dest='placetypes', action='store', default=None, help='One or more placetype to bundle. Default are placetypes whose roles are one of: common; common_optional; optional')
+    opt_parser.add_option('-S', '--suffix', dest='suffix', action='store', default='', help='Append this suffix to the bundle name')
+    opt_parser.add_option('-n', '--name-template', dest='name_template', action='store', default=None, help='Apply this (Python string) template to each placetype in order to generate the bundle name')
 
     # see below
     # opt_parser.add_option('-r', '--roles', dest='roles', action='store', default=None, help='')
@@ -26,7 +26,7 @@ if __name__ == '__main__':
     opt_parser.add_option('--aws-creds', dest='aws_creds', action='store', default=None, help='')
     opt_parser.add_option('--aws-bucket', dest='aws_bucket', action='store', default=None, help='')
 
-    opt_parser.add_option('-f', '--force', dest='force', action='store_true', default=False, help='... (default is False)')
+    opt_parser.add_option('-f', '--force', dest='force', action='store_true', default=False, help='For a bundle to be created even if the local and remote meta files are the same (default is False)')
     opt_parser.add_option('-v', '--verbose', dest='verbose', action='store_true', default=False, help='Be chatty (default is False)')
 
     options, args = opt_parser.parse_args()
@@ -75,14 +75,16 @@ if __name__ == '__main__':
 
     for pt in iter:
 
+        # See notes above the mapzen.whosonfirst.bundles.bundle code
+        # (20160607/thisisaaronland)
+
         name = pt
 
-        # TO DO : check for options.name (maybe options.template?) and adjust name
-        # as necessaary? maybe it is only ever something that 'pt' gets inserted in
-        # to? TBD... (20160607/thisisaaronland)
+        if options.name_template:
+            name = options.name_template % name
 
-        logging.info("bundle %s (%s)" % (pt, options.suffix))
+        logging.info("bundle %s (%s)" % (name, options.suffix))
 
         # TO DO: threads?
 
-        bdl.bundle(name, suffix=options.suffix)
+        bdl.bundle(pt, name, suffix=options.suffix)
