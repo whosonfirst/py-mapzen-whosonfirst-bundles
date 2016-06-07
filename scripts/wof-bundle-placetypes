@@ -17,8 +17,11 @@ if __name__ == '__main__':
     opt_parser.add_option('-d', '--dest', dest='dest', action='store', default=None, help='')
     opt_parser.add_option('-p', '--placetypes', dest='placetypes', action='store', default=None, help='')
     opt_parser.add_option('-S', '--suffix', dest='suffix', action='store', default='', help='')
+    opt_parser.add_option('-n', '--name', dest='name', action='store', default='', help='')
+
     # see below
     # opt_parser.add_option('-r', '--roles', dest='roles', action='store', default=None, help='')
+
     opt_parser.add_option('--wof-clone', dest='clone', action='store', default=None, help='')
     opt_parser.add_option('--aws-creds', dest='aws_creds', action='store', default=None, help='')
     opt_parser.add_option('--aws-bucket', dest='aws_bucket', action='store', default=None, help='')
@@ -72,8 +75,14 @@ if __name__ == '__main__':
 
     for pt in iter:
 
+        name = pt
+
+        # TO DO : check for options.name (maybe options.template?) and adjust name
+        # as necessaary? maybe it is only ever something that 'pt' gets inserted in
+        # to? TBD... (20160607/thisisaaronland)
+
         logging.info("bundle %s (%s)" % (pt, options.suffix))
 
         # TO DO: threads?
 
-        bdl.bundle(pt, suffix=options.suffix)
+        bdl.bundle(name, suffix=options.suffix)

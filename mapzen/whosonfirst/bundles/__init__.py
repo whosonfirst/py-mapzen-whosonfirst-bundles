@@ -106,8 +106,6 @@ class bundler:
 
         bundle.append("bundle")
 
-        #
-
         bundle = "-".join(bundle)
 
         root = os.path.join(self.dest, bundle)
