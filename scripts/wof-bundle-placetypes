@@ -13,6 +13,9 @@ if __name__ == '__main__':
 
     opt_parser = optparse.OptionParser()
 
+    # PLEASE WRITE ME (20160607/thisisaaronland)
+    # opt_parser.add_option('-r', '--repo', dest='repo', action='store', default=None, help='The path to a valid WOF repo')
+
     opt_parser.add_option('-s', '--source', dest='source', action='store', default=None, help='Where the actual WOF data lives')
     opt_parser.add_option('-d', '--dest', dest='dest', action='store', default=None, help='Where the bundle will be created')
     opt_parser.add_option('-p', '--placetypes', dest='placetypes', action='store', default=None, help='One or more placetype to bundle. Default are placetypes whose roles are one of: common; common_optional; optional')
@@ -87,4 +90,4 @@ if __name__ == '__main__':
 
         # TO DO: threads?
 
-        bdl.bundle(pt, name, suffix=options.suffix)
+        bdl.bundle(name, suffix=options.suffix)

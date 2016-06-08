@@ -97,17 +97,7 @@ class bundler:
 
         self.force = kwargs.get('force', False)
 
-    # For example pt might be "venue" and name might be "venue-us-ca"
-    # The current flaw in this approach is that it is predicated on the
-    # idea that the CSV file is always 'wof-PLACETYPE-latest.csv' which
-    # doesn't really track for complex or multi-part repos like venues.
-    # Probably the correct approach is to ensure that the CSV file also
-    # expected to be 'wof-NAME-latest.csv' where name might be "venue"
-    # or "venue-us-ca" and so on. But that means updating the csv-to-placetype
-    # code in py-mz-wof-utils so if you're reading this that means I 
-    # haven't done that yet... (20160607/thisisaaronland)
-
-    def bundle(self, pt, name, **kwargs):
+    def bundle(self, name, **kwargs):
 
         bundle = [ "wof", name ]
 
@@ -123,7 +113,7 @@ class bundler:
 
         source = "file://%s" % self.data
 
-        csv_fname = "wof-%s-latest.csv" % pt
+        csv_fname = "wof-%s-latest.csv" % name
         csv_latest = os.path.join(self.meta, csv_fname)
 
         csv_local = os.path.join(root, csv_fname)
