@@ -13,11 +13,11 @@ if __name__ == '__main__':
 
     opt_parser = optparse.OptionParser()
 
-    # PLEASE WRITE ME (20160607/thisisaaronland)
-    # opt_parser.add_option('-r', '--repo', dest='repo', action='store', default=None, help='The path to a valid WOF repo')
+    opt_parser.add_option('-R', '--repo', dest='repo', action='store', default=None, help='Path to a valid WOF repo - this takes precedence over options.source, options.dest and options.name-template and assumes that options.repo has both a data and a meta directory')
 
     opt_parser.add_option('-s', '--source', dest='source', action='store', default=None, help='Where the actual WOF data lives')
     opt_parser.add_option('-d', '--dest', dest='dest', action='store', default=None, help='Where the bundle will be created')
+
     opt_parser.add_option('-p', '--placetypes', dest='placetypes', action='store', default=None, help='One or more placetype to bundle. Default are placetypes whose roles are one of: common; common_optional; optional')
     opt_parser.add_option('-S', '--suffix', dest='suffix', action='store', default='', help='Append this suffix to the bundle name')
     opt_parser.add_option('-n', '--name-template', dest='name_template', action='store', default=None, help='Apply this (Python string) template to each placetype in order to generate the bundle name')
@@ -38,17 +38,6 @@ if __name__ == '__main__':
         logging.basicConfig(level=logging.DEBUG)
     else:
         logging.basicConfig(level=logging.INFO)
-
-    kwargs = {
-        'source': options.source,
-        'dest': options.dest,
-        'clone': options.clone,
-        'aws_creds': options.aws_creds,
-        'aws_bucket': options.aws_bucket,
-        'force': options.force,
-    }
-
-    bdl = mapzen.whosonfirst.bundles.bundler(**kwargs)
 
     # PLEASE PUT ME IN A LIBRARY... (20160127/thisisaaronland)
 
@@ -73,21 +62,50 @@ if __name__ == '__main__':
 
             for pt in mapzen.whosonfirst.placetypes.with_roles(['common', 'common_optional', 'optional']):
                 yield pt
-    
+
+    #
+
+    src = options.source
+    dest = options.dest
+
+    name_template = options.name_template
+
+    if options.repo:
+
+        repo = os.path.abspath(options.repo)
+        src = repo
+
+        repo_name = os.path.basename(repo)
+        repo_name = repo_name.replace("whosonfirst-data", "")
+        repo_name = repo_name.lstrip("-")
+
+        repo_name = repo_name.split("-")
+        repo_name[0] = "%s"
+
+        name_template = "-".join(repo_name)
+
+    kwargs = {
+        'source': src,
+        'dest': dest,
+        'clone': options.clone,
+        'aws_creds': options.aws_creds,
+        'aws_bucket': options.aws_bucket,
+        'force': options.force,
+    }
+
+    bdl = mapzen.whosonfirst.bundles.bundler(**kwargs)
+
+    #
+
     iter = placetypes(options)
 
     for pt in iter:
 
-        # See notes above the mapzen.whosonfirst.bundles.bundle code
-        # (20160607/thisisaaronland)
-
         name = pt
 
-        if options.name_template:
-            name = options.name_template % name
+        if name_template:
+            name = name_template % name
 
         logging.info("bundle %s (%s)" % (name, options.suffix))
-
-        # TO DO: threads?
 
         bdl.bundle(name, suffix=options.suffix)
