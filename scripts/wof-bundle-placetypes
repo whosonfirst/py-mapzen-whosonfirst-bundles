@@ -5,6 +5,7 @@ import sys
 import logging
 
 import mapzen.whosonfirst.placetypes
+import mapzen.whosonfirst.placetypes.utils
 import mapzen.whosonfirst.bundles
 
 if __name__ == '__main__':
@@ -18,12 +19,14 @@ if __name__ == '__main__':
     opt_parser.add_option('-s', '--source', dest='source', action='store', default=None, help='Where the actual WOF data lives')
     opt_parser.add_option('-d', '--dest', dest='dest', action='store', default=None, help='Where the bundle will be created')
 
-    opt_parser.add_option('-p', '--placetypes', dest='placetypes', action='store', default=None, help='One or more placetype to bundle. Default are placetypes whose roles are one of: common; common_optional; optional')
+    opt_parser.add_option('-p', '--placetypes', dest='placetypes', action='store', default=None, help='The list of placetypes to bundles for. Default is everything with the following roles: common, common_optional, optional')
+    # this still needs to be implemented in py-mz-wof-placetypes-utils (20160608/thisisaaronland)
+    # opt_parser.add_option('-r', '--roles', dest='roles', action='store', default=None, help='')
+    opt_parser.add_option('-i', '--ignore', dest='ignore', action='store', default=None, help='The list of placetypes to ignore when generating bundles')
+
+
     opt_parser.add_option('-S', '--suffix', dest='suffix', action='store', default='', help='Append this suffix to the bundle name')
     opt_parser.add_option('-n', '--name-template', dest='name_template', action='store', default=None, help='Apply this (Python string) template to each placetype in order to generate the bundle name')
-
-    # see below
-    # opt_parser.add_option('-r', '--roles', dest='roles', action='store', default=None, help='')
 
     opt_parser.add_option('--wof-clone', dest='clone', action='store', default=None, help='')
     opt_parser.add_option('--aws-creds', dest='aws_creds', action='store', default=None, help='')
@@ -38,30 +41,6 @@ if __name__ == '__main__':
         logging.basicConfig(level=logging.DEBUG)
     else:
         logging.basicConfig(level=logging.INFO)
-
-    # PLEASE PUT ME IN A LIBRARY... (20160127/thisisaaronland)
-
-    def placetypes(options):
-
-        if options.placetypes:
-
-            placetypes = options.placetypes.split(",")
-
-            for pt in placetypes:
-                pt = pt.strip()
-
-                if not mapzen.whosonfirst.placetypes.is_valid_placetype(pt):
-                    logging.warning("%s is not a valid placetype, skipping")
-                    continue
-
-                yield pt
-
-        # TO DO options.roles
-
-        else:
-
-            for pt in mapzen.whosonfirst.placetypes.with_roles(['common', 'common_optional', 'optional']):
-                yield pt
 
     #
 
@@ -95,11 +74,7 @@ if __name__ == '__main__':
 
     bdl = mapzen.whosonfirst.bundles.bundler(**kwargs)
 
-    #
-
-    iter = placetypes(options)
-
-    for pt in iter:
+    for pt in mapzen.whosonfirst.placetypes.utils.placetypes_from_options(options):
 
         name = pt
 
