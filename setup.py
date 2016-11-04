@@ -19,7 +19,7 @@ desc = open("README.md").read()
 
 setup(
     name='mapzen.whosonfirst.bundles',
-    namespace_packages=['mapzen', 'mapzen.whosonfirst', 'mapzen.whosonfirst.bundles'],
+    namespace_packages=['mapzen', 'mapzen.whosonfirst'],
     version=version,
     description='A package to generate Who\'s On First data bundles',
     author='Mapzen',
