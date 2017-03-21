@@ -27,7 +27,6 @@ setup(
     install_requires=[
         'boto',
         'mapzen.whosonfirst.placetypes',
-        'mapzen.whosonfirst.placetypes.utils',
         ],
     dependency_links=[
         'https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes/tarball/master',
