@@ -26,12 +26,11 @@ setup(
     url='https://github.com/mapzen/py-mapzen-whosonfirst-bundles',
     install_requires=[
         'boto',
-        'mapzen.whosonfirst.placetype',
+        'mapzen.whosonfirst.placetypes',
         'mapzen.whosonfirst.placetypes.utils',
         ],
     dependency_links=[
         'https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes/tarball/master',
-        'https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes-utils/tarball/master',
         ],
     packages=packages,
     scripts=[
