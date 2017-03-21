@@ -1,2 +1,1 @@
 git+git://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes
-git+git://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes-utils
