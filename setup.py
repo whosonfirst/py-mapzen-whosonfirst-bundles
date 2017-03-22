@@ -24,13 +24,6 @@ setup(
     description='A package to generate Who\'s On First data bundles',
     author='Mapzen',
     url='https://github.com/mapzen/py-mapzen-whosonfirst-bundles',
-    install_requires=[
-        'boto',
-        'mapzen.whosonfirst.placetypes',
-        ],
-    dependency_links=[
-        'https://github.com/whosonfirst/py-mapzen-whosonfirst-placetypes/tarball/master',
-        ],
     packages=packages,
     scripts=[
         'scripts/wof-bundle-placetypes',
