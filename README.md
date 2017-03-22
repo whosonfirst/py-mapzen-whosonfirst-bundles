@@ -5,7 +5,7 @@ A Python package to generate Who's On First data bundles.
 ## Install
 
 ```
-sudo pip install -r requirements.txt
+sudo pip install -r requirements.txt .
 ```
 
 ## See also
